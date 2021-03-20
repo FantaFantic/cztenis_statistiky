@@ -34,7 +34,7 @@
   --dark: #343a40;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
+  --breakpoint-md: 992px/*992px/*768px*/*/;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -558,7 +558,7 @@ pre code {
     max-width: 540px;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*992px/*768px*/) {
   .container-md, .container-sm, .container {
     max-width: 720px;
   }
@@ -1019,7 +1019,7 @@ pre code {
     margin-left: 91.6666666667%;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .col-md {
     flex-basis: 0;
     flex-grow: 1;
@@ -3014,7 +3014,7 @@ input[type=button].btn-block {
     left: auto;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .dropdown-menu-md-left {
     right: auto;
     left: 0;
@@ -4083,7 +4083,7 @@ input[type=button].btn-block {
     padding-left: 0;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .navbar-expand-md {
     flex-flow: row nowrap;
     justify-content: flex-start;
@@ -5100,7 +5100,7 @@ a.badge-dark:focus, a.badge-dark.focus {
     border-left-width: 0.125rem;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .list-group-horizontal-md {
     flex-direction: row;
   }
@@ -6359,7 +6359,7 @@ button.bg-dark:focus {
     display: inline-flex !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .d-md-none {
     display: none !important;
   }
@@ -6821,7 +6821,7 @@ button.bg-dark:focus {
     align-self: stretch !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .flex-md-row {
     flex-direction: row !important;
   }
@@ -7257,7 +7257,7 @@ button.bg-dark:focus {
     float: none !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .float-md-left {
     float: left !important;
   }
@@ -8337,7 +8337,7 @@ button.bg-dark:focus {
     margin-left: auto !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .m-md-0 {
     margin: 0 !important;
   }
@@ -9695,7 +9695,7 @@ button.bg-dark:focus {
     text-align: center !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px/*768px*/) {
   .text-md-left {
     text-align: left !important;
   }
