@@ -1,0 +1,697 @@
+{% extends 'player/player_base.html' %}
+
+{% block player_content %}
+
+
+
+
+
+<br>
+
+
+
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5" style="text-align: center; margin-top: 10px">
+
+          <h5>Parametry výběru:</h5>
+        </div>
+      </div>
+  <div class="row" style="margin-top: -30px">
+
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5" >
+
+         
+          
+
+          <br>
+          <div class="row">
+            <div id="select_dvouhra"  style="width: 80%; margin-left: 10%; display: none">
+              <select class="form-control" id="select_box_dvouhra_ctyrhra" onchange="show_table(false), filterRow('', 8), filterRow(this.value, 8)" >
+                    <option value="2">Čtyřhra</option>
+              </select>
+            </div>
+          </div>
+          <br>
+          <div class="col-md-12" style="margin-top: 22px;">
+            <select class="form-control" id="filter_age_category" onchange="show_table(false), filterRow('', 1), filterRow(this.value, 1)" >
+              <option value="">Všechny věkové kategorie</option>
+              <option value="Dospělí">Dospělí</option>
+              <option value="Dorost">Dorost</option>
+              <option value="Starší žactvo">Starší žactvo</option>
+              <option value="Mladší žactvo">Mladší žactvo</option>
+              <option value="Babytenis">Babytenis</option>
+              <option value="Minitenis">Minitenis</option>
+              <!-- class="bg-danger text-white"
+               class="bg-success text-white" -->
+            </select>
+          </div>
+          <br>
+          <div class="col-md-12" style="margin-top: 25px;">
+            <select class="form-control" id="result_select" onchange="show_table(false), filterRow('', 11), filterRow(this.value, 11)" >
+              <option value="">Všechny počty setů</option>
+              <option value="2">2 sety</option>
+              <option value="3">3 sety</option>
+              <!-- class="bg-danger text-white"
+               class="bg-success text-white" -->
+            </select>
+          </div>
+
+          <br>
+            <div class="col-md-12" style="margin-top: 15px">
+              <select class="form-control" id="select_box_jednotlivci_druzstva" onchange="show_table(false), filterRow('', 9), filterRow(this.value, 9)" >
+                <option value="">Družstva / Jednotlivci</option>
+                <option value="1">Družstva</option>
+                <option value="2" class=>Jednotlivci</option>
+              </select>
+            </div>
+          
+          <br>
+          
+        </div>
+
+
+
+
+        <div class="col-md-4"  style="margin-top: 20px">
+                <br>
+              <div class="row">
+
+                
+                  <br>
+                  
+                 
+                
+                  <div class="col-md-12"  style="margin-top: 10px">
+             
+                   <div class="text-dark border rounded" style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 15px; background-color: #f8f9fa; "><!--  background-color: #EAFECB;"> -->
+                         <div style="margin-top: 10px; text-align: center; background-color: #f8f9fa;">
+                            <br>
+                       <a style="font-size: 18px;">Různých partnerů</a>
+                       <br> 
+                       <b><a  id="different_opponents_element"  style="font-size: 20px;">0</b></a>
+                            <br><div style="margin-top: 5px"></div>
+                         </div>
+                         <br>
+                     </div>
+                   </div>
+
+
+                 
+          <br>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="text-align: center; margin-top: 22px">
+
+              <button type="button" onclick="show_table(false), set_default_filters()" class="btn btn-light border" style="height: 70px; width: 100%"><h7>Obnovit filtry</h7></button>
+            </div>
+          </div>
+
+
+  </div>
+
+
+
+</div>
+
+<br>
+
+
+
+<br>
+
+
+<table id="rivals_table" class="table table-hover" style="font-size: 14px;">
+
+    <thead>
+        <tr>
+            
+        <th scope="col" style="width: 120px" >Počet zápasů</th>
+        <th scope="col" ><div style="position: absolute; margin-top: -30px;">
+            <input type="search" onkeyup="filterOpponents(this.value)" onblur="filterOpponents(this.value)"   id="filter_opponent" class="form-control" placeholder="partner"
+            aria-label="Search" style="margin-left: -12px;"  />
+        </div></th>
+        <th style="width:80px"></th>
+        <th scope="col" style="width: 80px">Poměr</th>
+        <th></th>
+        </tr>
+        </thead>
+
+
+        <tr>
+            <td scope='col' ><b>Je rok</b></dh>
+            <td scope='col' ><a href='https://www.youtube.com/watch?v=qfZVu0alU0I&list=RDqfZVu0alU0I&ab_channel=TheBestOf-HomeOfClassicMusic'>1984</a></dh>
+            <td scope='col'><button type="button" onclick="filterRow('', 12), filterRow('1019338', 12), show_table(true)" class='btn btn-light' style='height: 30px; margin-top: -7px;font-size: 14px'>World aint slowing down</button></dh>
+            <td scope='col'><b>:/</b>-<b>:(</b></dh>
+            <td scope='col'>
+            <div  style='height: 30px; width: 400px'>
+                <div class='border border-secondary' style='width: 50%; height:100%; background: #28a745; position: float; float: left'></div>
+                <div class='border border-secondary'  style='width: 50%; height:100%; background: #dc3545; position: float; float:left'></div>
+            </div>
+            </td>
+        </tr>
+      
+</table>
+
+
+
+  <table id="results_table" class="table table-hover" style="font-size: 14px; display: none">
+
+    <thead>
+      <tr>
+          
+        <th scope="col" >Datum</th>
+        <th scope="col" >Věk</th>
+        <th scope="col">Turnaj</th>
+        <th scope="col">Kolo</th>
+        <th scope="col">Hráč, partner</th>
+        <th scope="col">Protivník</th>
+        
+        <th scope="col"><div style="position: absolute; margin-left: -10px; margin-top: -18px;">Sady</div></th>
+        <th scope="col" colspan="1">
+                  <div class="select_win_lose">
+                    <select class="form-control"  style="position: absolute;margin-left: -10px; margin-top: -29px; width: 90px" id="result_select" onchange="filterRow('', 6), filterRow(this.value, 6)" >
+                      <option value="">Vše</option>
+                      <option value="1">Vítězství</option>
+                      <option value="2">Porážky</option>
+                      <!-- class="bg-danger text-white"
+                       class="bg-success text-white" -->
+                    </select>
+                  </div>
+                </th>
+      </tr>
+    </thead>
+
+    </th>
+    <tr>
+        
+    </tr>
+
+
+    <tbody>
+
+
+
+    {% for tournament in all_tournaments %}
+
+      {% for match in tournament.matches %}
+          <tr>
+
+  <!--  <a href="/player/{{ player.id }}"></a> <br>-->
+
+            <td scope="row">{{ tournament.date_string }}</td>
+            <td >{{ tournament.category_type.age_category }}</td>
+              {% if match.match_round %}
+
+              <td><a href="http://cztenis.cz{{ tournament.competition_link }}" target="_blank"> {{ tournament.tournament_place }} <b>({{ tournament.competition_type }})</b></a></td>
+              <td>{{ match.match_round }}{% if forloop.last %}<div style="float: right">(<b>{{ tournament.points }}b</b>)</div>{% endif %}</td>
+              {% else %}<!-- družstva -->
+              <td>
+                {% if match.playing_for_team == tournament.tournament_place %}<b><a href="http://cztenis.cz{{ match.your_team_link }}" target="_blank">{{ tournament.tournament_place }}</a></b></b>
+                {% else %}<a href="http://cztenis.cz{{ match.opponent_team_link }}" target="_blank">{{ tournament.tournament_place }}</a>
+                {% endif %}
+                vs
+                {% if match.playing_for_team == tournament.tournament_place %}
+                <a href="http://cztenis.cz{{ match.opponent_team_link }}" target="_blank">{{ match.playing_against_team }}</a>
+                {% else %}
+                <b><a href="http://cztenis.cz{{ match.your_team_link }}" target="_blank">{{ match.playing_for_team }}</a></b>
+                {% endif %}
+              <td><a href="http://cztenis.cz{{ tournament.competition_link }}" target="_blank"> {{ tournament.competition_type }}</a></td>
+              {% endif %}
+              <td>{{ player.last_name }}{% if match.partner_name %}, <a href="/hrac/{{ match.partner_id }}">{{ match.partner_name }}</a>{% endif %}</td>
+            <td >
+              <a href="/hrac/{{ match.opponent_id }}">
+                {{ match.opponent_name }}
+              </a>
+              {% if match.second_opponent_name %},
+              <a href="/hrac/{{ match.second_opponent_id }}">
+                {{ match.second_opponent_name }}
+              </a>{% endif %}
+            </td>
+            {% if match.match_result == "Vítězství" %}
+            <td class="bg-success text-white" style="width: 55px">{% else %}{% if match.match_result == "Porážka" %}<td class="bg-danger text-white" style="width: 55px" >{% else %}<td  class="bg-warning text-dark" style="width: 55px" >{% endif %}{% endif %}{{ match.sets_won }} : {{ match.sets_lost }}</td>
+            <td style="width: 110px" >
+              <b>
+                {% if  match.games_won_per_set.0 %}{{ match.games_won_per_set.0 }}:{{ match.games_lost_per_set.0 }}
+                {% endif %}
+                {% if  match.games_won_per_set.1 %}, {{ match.games_won_per_set.1 }}:{{ match.games_lost_per_set.1 }}{% endif %}{% if  match.games_won_per_set.2 %}, {{ match.games_won_per_set.2 }}:{{ match.games_lost_per_set.2 }}
+                {% endif %}
+              </b>
+
+
+            </td>
+            <td style="display: none">{% if tournament.category_type.play_type == "dvouhra" %}1{% else %}2{% endif %}</td>
+            <td style="display: none">{% if tournament.category_type.category_type == "družstva" %}1{% else %}2{% endif %}</td>
+            <td style="display: none">{% if match.match_result == "Vítězství" %}1{% else %}{% if match.match_result == "Porážka" %}2{% else %}0{% endif %}{% endif %}</td>
+            <td style="display: none">{{ match.number_of_sets }}</td>
+            <td style="display: none">{% if match.partner_name != None %}{{ match.partner_id }},{% endif %}</td>
+            <td style="display: none">{{ match.partner_name }},</td>
+           </tr>
+
+
+      {% endfor %}
+{% endfor %}
+
+</tbody>
+</table>
+
+
+
+            <script>
+
+              const different_opponents_element = document.getElementById("different_opponents_element");
+           
+              const select_box_dvouhra_ctyrhra = document.getElementById("select_box_dvouhra_ctyrhra");
+              const select_box_jednotlivci_druzstva = document.getElementById("select_box_jednotlivci_druzstva");
+
+              const filter_age_category = document.getElementById("filter_age_category");
+
+              const result_select = document.getElementById("result_select");
+
+             const reults_table_element = document.getElementById("results_table");
+                const rivals_table = document.getElementById("rivals_table");
+              let table_string = reults_table_element.getElementsByTagName("tr");
+
+              
+              active_rows = []
+              disabled_rows = []
+              for(let i = 2; i < table_string.length; i++){
+                active_rows.push(null);
+                disabled_rows.push(table_string[i]);
+              }
+
+
+              let different_opponents_count = 0;
+              
+              let opponents_sorted;
+
+              let active_filter_indexes = {};
+
+              // variables
+              let all_opponents_array = {};
+              let max_matches;
+
+              window.onload = function (){
+                $('tbody').each(function(){
+                    var list = $(this).children('tr');
+                    $(this).html(list.get().reverse())
+                });
+                set_default_filters();
+              }
+
+              function filterRow(value, column_number, mustBeSingle){
+                
+                let is_bigger_date = false;
+       
+
+                column_number = parseInt(column_number);
+                try{
+
+                  filter = value.toUpperCase();
+                }
+                catch(err){
+                  filter = value + "";
+                }
+
+                if(column_number == 6){ // win / lose
+                  // 12 sloupec
+                  column_number = 10;
+                  
+                }
+                else if(column_number == 4 && filter != ""){
+                  filter = "{{ player.last_name }}".toUpperCase() + ", " + filter;
+                } // hled8n9 partnera
+
+                
+                
+
+                if(active_filter_indexes[column_number] == undefined || 
+              /* text */((filter.length > active_filter_indexes[column_number].length))){
+                  // filtr přibývá check active
+                  active_filter_indexes[column_number] = filter;
+                  for(let i = 0; i < active_rows.length ; i++){
+
+                    if(active_rows[i] != null){
+                      td = active_rows[i].getElementsByTagName("td")[column_number];
+
+                      txtValue = td.textContent || td.innerText;
+                      if(column_number == 3 && filter == "2>1"){
+                          if(txtValue.substring(0,3) != "2>1"){
+                            active_rows[i].style.display = "none";
+                            disabled_rows[i] = active_rows[i];
+                            active_rows[i] = null;
+
+                            sets = disabled_rows[i].getElementsByTagName("td")[6].textContent.split(" : ");
+
+                            isWin = disabled_rows[i].getElementsByTagName("td")[10].textContent == 1;
+                            isLose = disabled_rows[i].getElementsByTagName("td")[10].textContent == 2;
+
+                            opponents = disabled_rows[i].getElementsByTagName("td")[12].textContent.split(",")
+                            opponent_names = disabled_rows[i].getElementsByTagName("td")[13].textContent.split(",")
+                            for(key in opponents){
+                                if(opponents[key] != "")
+                                {   
+                                   
+                                    all_opponents_array[opponents[key]].match_count--;
+                                    if(all_opponents_array[opponents[key]].match_count <= 0){
+                                        all_opponents_array[opponents[key]] = undefined;
+                                        delete all_opponents_array[opponents[key]]
+
+                                        different_opponents_count--;   
+                                    }
+                                    else{
+                                        if(isWin)
+                                            all_opponents_array[opponents[key]].win_count--;
+                                        else if(isLose)
+                                            all_opponents_array[opponents[key]].lose_count--;
+                                    }
+                                    
+                                }
+                            }
+
+                            
+                            continue;
+                          }
+                      } // hled8n9 partnera
+
+
+                      if (!(txtValue.toUpperCase().indexOf(filter) > -1)) {
+                        
+                        
+                        active_rows[i].style.display = "none";
+                        disabled_rows[i] = active_rows[i];
+                        active_rows[i] = null;
+
+                        sets = disabled_rows[i].getElementsByTagName("td")[6].textContent.split(" : ");
+                    
+
+                        isWin = disabled_rows[i].getElementsByTagName("td")[10].textContent == 1;
+                        isLose = disabled_rows[i].getElementsByTagName("td")[10].textContent == 2;
+
+                        opponents = disabled_rows[i].getElementsByTagName("td")[12].textContent.split(",")
+                            opponent_names = disabled_rows[i].getElementsByTagName("td")[13].textContent.split(",")
+                            for(key in opponents){
+                                if(opponents[key] != "")
+                                {
+                                    if(all_opponents_array[opponents[key]] == undefined){
+
+                                        continue;
+                                    }
+
+                                    all_opponents_array[opponents[key]].match_count--;
+                                    if(all_opponents_array[opponents[key]].match_count <= 0){
+                                        all_opponents_array[opponents[key]] = undefined;
+                                        delete all_opponents_array[opponents[key]];
+                                        different_opponents_count--; 
+                                    }
+                                    else{
+                                        if(isWin)
+                                            all_opponents_array[opponents[key]].win_count--;
+                                        else if(isLose)
+                                            all_opponents_array[opponents[key]].lose_count--;
+                                    }
+                                    
+                                }
+                            }
+
+
+
+                      } 
+                    } 
+                  }
+
+                  }/* else text */
+                  else
+                  {
+
+                      // novej je menší
+                      if(filter == "" && active_filter_indexes[column_number] == ""){
+                        delete active_filter_indexes[column_number];
+                        return 0;
+                      }
+                      else if(column_number < 6 && filter.length == active_filter_indexes[column_number].length)
+                        return 0;
+
+                      active_filter_indexes[column_number] = filter;
+                      cancelation_all_rows(column_number, value);
+                      
+                }
+
+                update_rivals_graph();
+              }
+
+
+              function cancelation_all_rows(column_number, value){
+                for(let i = 0; i < disabled_rows.length ; i++){
+                        if(disabled_rows[i] != null){
+
+                          let skip;
+                          skip = false;
+                          for(index in active_filter_indexes){
+
+                            td = disabled_rows[i].getElementsByTagName("td")[index];
+                            txtValue = td.textContent || td.innerText;
+                            // console.log(txtValue + " against " + active_filter_indexes[index]);
+                            
+                        
+                            if (!(txtValue.toUpperCase().indexOf(active_filter_indexes[index]) > -1)) {
+                              skip = true;
+                              break;
+                            }                
+                          }
+                          if(skip)
+                            continue;
+
+                            
+                          disabled_rows[i].style.display = "";
+                          //console.log(txtValue + ": popoing to disabled, filter: " + filter + ": " + txtValue.toUpperCase().indexOf(filter));
+                          active_rows[i] = disabled_rows[i];
+                          disabled_rows[i] = null;
+                        // console.log("\n")
+
+                            sets = active_rows[i].getElementsByTagName("td")[6].textContent.split(" : ");
+
+                            isWin = active_rows[i].getElementsByTagName("td")[10].textContent == 1;
+                            isLose = active_rows[i].getElementsByTagName("td")[10].textContent == 2;
+                            opponents = active_rows[i].getElementsByTagName("td")[12].textContent.split(",")
+                            opponent_names = active_rows[i].getElementsByTagName("td")[13].textContent.split(",")
+                            for(key in opponents){
+                                if(opponents[key] != "")
+                                {
+                                    if(all_opponents_array[opponents[key]] == undefined){
+                                        all_opponents_array[opponents[key]] = { name: opponent_names[key],match_count : 0, win_count : 0, lose_count: 0}
+                                        different_opponents_count++;
+                                    }
+                                    all_opponents_array[opponents[key]].match_count++;
+                                    if(isWin)
+                                        all_opponents_array[opponents[key]].win_count++;
+                                    else if(isLose)
+                                        all_opponents_array[opponents[key]].lose_count++;
+                                }
+                            }
+
+                          
+                        }
+                  
+                      }
+              }
+
+              function show_table(value){
+                if(value)
+                    reults_table_element.style.display = "";
+                else{
+                    reults_table_element.style.display = "none";
+                }
+                    
+              }
+
+              function set_default_filters(){
+                // console.log("setting default filters");
+                select_box_dvouhra_ctyrhra.selectedIndex = 0;
+                select_box_jednotlivci_druzstva.selectedIndex = 0;
+
+                
+
+                result_select.selectedIndex = 0;
+
+                // date_picker_start_date.value = init_begin_date_string;
+                // date_picker_end_date.value = init_end_date_string;
+
+                filter_age_category.selectedIndex = 0;
+
+
+                // current_start_date = Date.parse(init_begin_date_string);
+                // current_end_date = Date.parse(init_end_date_string);
+
+                active_filter_indexes = {};
+                all_opponents_array = {};
+               // console.log(all_opponents_array);
+                different_opponents_count = 0;
+
+                for(row in active_rows){
+                    if(active_rows[row] != undefined){
+                        
+                        disabled_rows[row] = active_rows[row];
+                    }
+                }
+                for(let i = 0; i < disabled_rows.length; i++){
+                  // console.log("coje" + all_target_rows_array[i].style.display);
+                  if(disabled_rows[i] != null){
+                    
+                    disabled_rows[i].style.display = "";
+                    active_rows[i] = disabled_rows[i];
+                    disabled_rows[i] = null;
+                    
+                    sets = active_rows[i].getElementsByTagName("td")[6].textContent.split(" : ");
+                    
+
+                    isWin = active_rows[i].getElementsByTagName("td")[10].textContent == 1;
+                    isLose = active_rows[i].getElementsByTagName("td")[10].textContent == 2;
+                    setCount = 0;
+                    setCount = parseInt(sets[0]) + parseInt(sets[1]);
+
+
+                    opponents = active_rows[i].getElementsByTagName("td")[12].textContent.split(",")
+                    opponent_names = active_rows[i].getElementsByTagName("td")[13].textContent.split(",")
+                    for(key in opponents){
+                        if(opponents[key] != "")
+                        {
+                            if(all_opponents_array[opponents[key]] == undefined){
+                                all_opponents_array[opponents[key]] = { id: opponents[key],name: opponent_names[key],match_count : 0, win_count : 0, lose_count: 0}
+                           
+                                different_opponents_count++;
+                                
+                            }
+                            all_opponents_array[opponents[key]].match_count++;
+                            if(isWin)
+                                all_opponents_array[opponents[key]].win_count++;
+                            else if(isLose)
+                                all_opponents_array[opponents[key]].lose_count++;
+                        }
+                    }
+
+
+                  }
+                }
+                update_rivals_graph();
+               
+
+              }
+
+              function update_rivals_graph(){
+
+                different_opponents_element.textContent = different_opponents_count;
+
+                opponents_sorted = []
+
+                for(key in all_opponents_array){
+                    if(all_opponents_array[key] != undefined){
+                        if(opponents_sorted[all_opponents_array[key].match_count] == undefined)
+                        opponents_sorted[all_opponents_array[key].match_count] = []
+
+                        opponents_sorted[all_opponents_array[key].match_count].push(all_opponents_array[key]);
+                    }
+                    
+                }
+
+                
+                max_matches = opponents_sorted.length - 1;
+
+                
+                removeTable();
+                for(let i = 0; i < opponents_sorted.length+1; i++){
+
+                    if(opponents_sorted[i] != undefined){
+                        for(let x = 0; x < opponents_sorted[i].length; x++){
+                            
+                            let row = rivals_table.insertRow(1);
+    
+                            let cell = row.insertCell(0);
+                            cell.innerHTML  = "<b>" + opponents_sorted[i][x].match_count + "</b>";
+                            cell = row.insertCell(1);
+                            // console.log(opponents_sorted[i][x]);
+                            cell.innerHTML = "<a href='/hrac/" + opponents_sorted[i][x].id +  "'>" +opponents_sorted[i][x].name + "</a>"
+                       
+                            cell = row.insertCell(2);
+                            cell.innerHTML = "<button type='button' onclick='filterRow(\"\", 12), filterRow(\""+  opponents_sorted[i][x].id+"\", 12), show_table(true)' class='btn btn-light' style='height: 30px; margin-top: -7px;font-size: 14px'>Zobrazit</button>";
+                            cell = row.insertCell(3);
+                            cell.innerHTML = "<b>" + opponents_sorted[i][x].win_count + "</b>-<b>" + opponents_sorted[i][x].lose_count + "</b>";
+                            cell = row.insertCell(4);
+
+                            let html_string = "<div  style='height: 30px; width: 400px'>";
+                            if(opponents_sorted[i][x].win_count > 0)
+                                html_string += "<div class='border border-secondary' style='width: "+ (100*opponents_sorted[i][x].win_count)/max_matches + "%; height:100%; background: #28a745; position: float; float: left'></div>";
+                            
+                            if(opponents_sorted[i][x].lose_count > 0)
+                                html_string += "<div class='border border-secondary' style='width: " + (100*opponents_sorted[i][x].lose_count)/max_matches + "%; height:100%; background: #dc3545; position: float; float: left'></div>";
+                        
+                            html_string += "</div>";
+                            cell.innerHTML = html_string;
+                           
+                        }
+                    }
+                    
+                    
+                
+                }
+
+                
+
+
+              }
+
+              function removeTable(){
+                    table_length = rivals_table.getElementsByTagName("tr").length;
+                    let count = 0;
+                    // console.log(table_length);
+                    while(count < table_length-1){
+                        rivals_table.deleteRow(1);
+                        count++;
+                    }
+                }
+
+
+                function filterOpponents(filter){
+
+                    filter = filter.toUpperCase();
+                    
+                    rivals_rows = rivals_table.getElementsByTagName("tr");
+                    console.log(rivals_rows.length);
+
+                    for(let i = 1; i < rivals_rows.length; i++){
+                        cell = rivals_rows[i].getElementsByTagName("td")[1];
+                      
+                        if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+                            
+                            rivals_rows[i].style.display = "";
+                            continue;
+                        } 
+
+                        rivals_rows[i].style.display = "none";
+                    }
+
+                }
+
+
+</script>
+
+
+
+
+
+
+<!-- set navbar active -->
+<script>
+    navbar_item = document.getElementById("nav_partners");
+    navbar_item.classList.add("active")
+</script>
+{% endblock %}
+

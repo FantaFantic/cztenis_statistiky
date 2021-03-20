@@ -1,0 +1,47 @@
+
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" style="font-size: 20px" href="/">CZtenis.cz statistiky</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                
+                <!-- <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'about' %}" >O aplikaci</a></li> -->
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'tournaments' %}" >Turnaje</a></li>
+                <!-- <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'about' %}" >Žebříčky</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="{% url 'about' %}" >Družstva</a></li> -->
+                <li class="nav-item mx-0 mx-lg-1" style="margin-top: 8px">
+                    <div class="input-group rounded" >
+
+                        <input id="search_players" type="search" class="form-control rounded" placeholder="Hledat hráče" aria-label="Search"
+                          aria-describedby="search-addon" style="width: 150px" required/>
+                        <span class="input-group-text border-0" style="height: 40px" id="search-addon">
+                          <i class="fas fa-search"></i>
+
+                          <script>
+
+                            // Execute a function when the user releases a key on the keyboard
+                            document.getElementById("search_players").addEventListener("keyup", function(event) {
+                            // Number 13 is the "Enter" key on the keyboard
+                            if (event.keyCode === 13) {
+                                if(document.getElementById("search_players").value != "")
+                                     window.location.href = "/hledat/" + document.getElementById("search_players").value
+                            }
+                            });
+
+                            document.getElementById("search-addon").addEventListener("click", function () {
+                                if(document.getElementById("search_players").value != "")
+                                    window.location.href = "/hledat/" + document.getElementById("search_players").value
+                            });
+                        </script>
+                        </span>
+                      </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,30 @@
+
+    <nav class="navbar navbar-expand-lg navbar-light" >
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#player_navbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          
+
+            <h6>Výběr</h6>  
+            <span class="navbar-toggler-icon"></span>
+          
+
+         
+            
+        </button>
+        
+        <div class="collapse navbar-collapse" id="player_navbar" >
+          <div class="navbar-nav" style="font-size: 22px; ">
+            
+            <a id="nav_rankings" class="nav-item nav-link px-5 "  href="/hrac/{{ player.id }}/zebricek">Žebříček</a>
+            <a id="nav_matchHistory" class="nav-item nav-link px-5 "  href="/hrac/{{ player.id }}/historieZapasu">Historie zápasů</a>
+<!--           
+            <a id="nav_kariera" class="nav-item nav-link px-5" href="/player/{{ player.id }}/season">Sezóna</a>
+             -->
+            <a id="nav_H2H" class="nav-item nav-link px-5 "  href="/hrac/{{ player.id }}/H2H">Rivalové</a>
+            <a id="nav_partners" class="nav-item nav-link px-5 " href="/hrac/{{ player.id }}/partneri">Partneři</a>
+<!--             
+            <a id="nav_tournaments" class="nav-item nav-link px-5 "  href="/player/{{ player.id }}/tournaments">Turnaje</a> -->
+          </div>
+        </div>
+      </nav>
+

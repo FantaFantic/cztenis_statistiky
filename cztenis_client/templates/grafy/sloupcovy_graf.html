@@ -1,0 +1,60 @@
+
+    <div id="myChart"></div>
+    <!-- creating chart -->
+    
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+
+        let myConfig = {
+        type: 'bar',
+        title: {
+            text: '',
+            fontSize: 30,
+        },
+        legend: {
+            draggable: true,
+        },
+        scaleX: {
+            // Set scale label
+            label: { text: 'Roky' },
+            // Convert text on scale indices
+            labels: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+        },
+        scaleY: {
+            // Scale label with unicode character
+            label: { text: 'Temperature (°F)' }
+        },
+        plot: {
+            // Animation docs here:
+            // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+            animation: {
+            effect: 'ANIMATION_EXPAND_BOTTOM',
+            method: 'ANIMATION_STRONG_EASE_OUT',
+            sequence: 'ANIMATION_BY_NODE',
+            speed: 275,
+            }
+        },
+        series: [
+            {
+            // plot 1 values, linear data
+            values: [23,null,27,29,25,17,15,35,42,33,49,35,47,35],
+            text: 'Dorost',
+            },
+            {
+            // plot 2 values, linear data
+            values: [35,42,33,49,35,47,35,35,42,33,49,35,47,35],
+            text: 'Starší žáci'
+            },
+            {
+            // plot 2 values, linear data
+            values: [15,22,13,33,44,27,31,35,42,33,49,35,47,35],
+            text: 'Ml žáci'
+            }
+        ]
+        };
+        // Render Method[3]
+        zingchart.render({
+        id: 'myChart',
+        data: myConfig,
+        });
+    </script>

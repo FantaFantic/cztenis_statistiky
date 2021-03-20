@@ -1,0 +1,16 @@
+{% extends 'player/player_base.html' %} 
+
+{% block player_content %}
+
+<br>
+
+{% include "grafy/zebricek_graf.html" with raknkings=rankings %}
+
+
+<!-- set navbar active -->
+<script>
+    navbar_item = document.getElementById("nav_rankings");
+    navbar_item.classList.add("active")
+</script>
+{% endblock %}
+

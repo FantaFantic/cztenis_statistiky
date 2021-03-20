@@ -1,0 +1,119 @@
+{% extends 'base.html' %} 
+
+<title>{% block title %}czTenis statistiky{% endblock %}</title>
+{% load static %}
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="col-md-8" style="text-align: center;">CZTENIS.cz
+      <small>statistiky</small>
+    </h1>
+  
+    <!-- Portfolio Item Row -->
+    <div class="row">
+  
+      <div class="col-md-8">
+          <div style="text-align: center; margin-left: 10px">
+            <a href="http://cztenis.cz" target="_blank">
+                <img class="img-fluid" src="{% static 'theme/assets/img/cztenis.jpg' %}" data-toggle="tooltip" data-placement="bottom" title="Logo Českého tenisového svazu, zdroj: cztenis.cz">
+                 </a>
+          </div>
+        
+        
+        <!-- Related Projects Row -->
+        <h6 class="my-4" style="text-align: center; font-size: 15px">Prozkoumejte <b>své</b> statistiky nebo zabádejte do počátků kariér českých nadějí:</h6>
+
+        <div class="row">
+  
+            <div class="col-md-3 col-sm-6 mb-4">
+              <a href="/hrac/1018021">
+                    <img class="img-fluid" src="{% static 'theme/assets/img/tomas_machac.jpg' %}"  data-toggle="tooltip" data-placement="bottom" title="Tomáš Macháč, zdroj: sport.cz" alt="Tomáš Macháč, zdroj: sport.cz">
+                  </a>
+            </div>
+        
+            <div class="col-md-3 col-sm-6 mb-4">
+              <a href="/hrac/1027311">
+                    <img class="img-fluid" src="{% static 'theme/assets/img/nikola_bartunkova.jpg' %}"  data-toggle="tooltip" data-placement="bottom" title="Nikola Bartůňková, zdroj: pardubickajuniorka.cz" alt="Nikola Bartůňková, zdroj: pardubickajuniorka.cz">
+                  </a>
+            </div>
+            
+            <div class="col-md-3 col-sm-6 mb-4">
+                <a href="/hrac/1016503">
+                      <img class="img-fluid" src="{% static 'theme/assets/img/jonas_forejtek.jpg' %}"  data-toggle="tooltip" data-placement="bottom" title="Jonáš Forejtek, zdroj: irozhlas.cz" alt="Jonáš Forejtek, zdroj: irozhlas.cz">
+                    </a>
+              </div>
+        
+              <div class="col-md-3 col-sm-6 mb-4">
+                <a href="/hrac/1022238">
+                      <img class="img-fluid" src="{% static 'theme/assets/img/linda_fruhvirtová.jpg' %}"  data-toggle="tooltip" data-placement="bottom" title="Linda Fruhvirtová, zdroj: cztenis.cz" alt="Linda Fruhvirtová, zdroj: cztenis.cz">
+                    </a>
+              </div>
+      </div>
+      </div>
+  
+      <div class="col-md-4">
+        <h3 class="my-3">Popis aplikace</h3>
+        <p>Aplikace je stvořena za účelem podpoření informovanosti vášnivých hráčů soupeřících o body pod vlajkou <a href="http://cztenis.cz/">Českého tenisového svazu</a>. Projekt vznikl
+            nezávisle na této organizaci. Z oficiálních stránek jsou však zpracovávána všechna data, která jsou zde přenesena do přehledných souhrnů. Začněte kliknutím na tlačítko <i>hledat hráče</i>.</I></p>
+        <h3 class="my-3">Funkce:</h3>
+        <ul>
+          <li>Kariéra v grafech</li>
+          <li>Vysoce filtrovatelná historie zápasů</li>
+          <li>Přehled kariérních rivalů a partnerů</li>
+          <li>Výsledky všech zápasů v živých číslech</li>
+        </ul>
+      </div>
+  
+    </div>
+
+    <hr>
+    <!-- /.row -->
+  
+    <div class="row">
+        <div class="col-md-12">
+            
+            <h3 class="my-3">Plánovaná rozšíření:</h3>
+        </div>
+        <div class="col-md-4">
+            <ul>
+              <li>Přehledy družstev</li>
+              <li>Zůčastněné a vyhrané turnaje v číslech</li>
+              <li>Postup k BH v grafické podobě</li>
+              <li>Nejnavštěvovanější profily</li>
+              <li>Žebříčky</li>
+              <li>A další :)</li>
+            </ul>
+          </div>
+
+          <div class="col-md-4" >
+                <b>Podpořte projekt</b> a 
+            ozvěte se na <a href="mailto:cztenisStatistiky@fanticSoft.cz">cztenisStatistiky@fanticSoft.cz</a>:
+            <div style="margin-top: 5px">
+                <ul>
+                    <li>Nalezli jste chybu</li>
+                    <li>Máte nápad na rozšíření</li>
+                    <li>Přejete si spolupracovat (ať už na tomto projektu, nebo na jiném)</li>
+                  </ul>
+            </div>
+            
+          </div>
+
+          <div class="col-md-4" >
+            <b>Zajímavosti:</b>
+        <div style="margin-top: 10px">
+            <p>
+              Z pozorování statistik hráčů s větším počtem zápasů: ve většině případů statistické rozdělení jak <i>grafu rivalit (víco ploché)</i>, tak <i>grafu partnerů (velmi ostře)</i>
+              skutečně odpovídá pravidlům <a href="https://cs.wikipedia.org/wiki/Paretovo_rozd%C4%9Blen%C3%AD" target="_blank">Paretových rozdělení</a>.
+            </p>
+        </div>
+        
+      </div>
+      
+          
+
+    </div>
+
+
+{% endblock %}

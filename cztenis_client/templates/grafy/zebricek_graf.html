@@ -1,0 +1,315 @@
+
+<div id="osaXPopisData" style="display: none">{% for season in active_seasons %}{{ season }},{% endfor %}</div>
+<div id="data" style="display: none">{% for ranking in rankings %}{{ ranking.year }},{{ ranking.category }},{{ ranking.ranking }},{{ ranking.BH }};{% endfor %}</div>
+<br>
+<div id="body_data" style="display: none">{% for item in points %}{{ item }};{% endfor %}</div>
+
+
+
+<div id="zebricekChart"></div>
+
+<br>
+<br>
+
+<div id="bhChart"></div>
+
+<br>
+<br>
+
+<div id="pointsChart"></div>
+
+    <!-- creating chart -->
+    
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script>
+
+        let data_output = {} // Category : year[] = ranknigs 
+
+        let years_array = document.getElementById("osaXPopisData").textContent.split(",")
+        years_array.pop()
+
+        let points_array;
+        points_array = document.getElementById("body_data").textContent.split(";")
+        points_array.pop()
+
+        let data = document.getElementById("data").textContent
+        let data_array = data.split(";");
+        data_array.pop();
+        let current_row, year, category, ranking, BH;
+
+        let categories = []
+
+        for(let i = 0; i < points_array.length; i++){
+            category = points_array[i].split(",")[1];
+            if(!categories.includes(category))
+                categories.push(category)   
+
+        }
+
+
+        for(category in categories){
+            if(!data_output[category])
+                data_output[category] = {}
+
+            for(let i = 0; i < years_array.length; i++){
+                data_output[category][years_array[i]] = {}
+
+            }
+        }
+
+        
+
+        for(let i = 0; i < data_array.length; i++){
+            year = data_array[i].split(",")[0];
+            category = data_array[i].split(",")[1];
+            ranking = data_array[i].split(",")[2];
+            BH = data_array[i].split(",")[3];
+            try {
+                data_output[categories.indexOf(category)][year].ranking = ranking
+                data_output[categories.indexOf(category)][year].BH = BH
+            }
+            catch(err) {
+                
+                console.log(err)
+                years_array.push(year)
+                // console.log(category)
+                try{
+                    data_output[categories.indexOf(category)].push(year)
+                    data_output[categories.indexOf(category)][year] = {}
+                    data_output[categories.indexOf(category)][year].ranking = ranking
+                    data_output[categories.indexOf(category)][year].BH = BH
+                }
+                catch(err){
+                    console.log(err)
+                }   
+            }
+            
+        }
+
+        
+        for(let i = 0; i < points_array.length; i++){
+            item = points_array[i];
+            year = item.split(",")[0];
+            category = item.split(",")[1];
+            points = item.split(",")[2];
+            data_output[categories.indexOf(category)][year].points = points;
+        }
+
+        // console.log(data_output)
+
+        let bh_values;
+        let ranking_values;
+        let points_values;
+
+        let text = "";
+        let value = null;
+
+        let plots;
+        ranking_plots = [];
+        bh_plots = [];
+        point_plots = [];
+        for(category in categories){
+            bh_values = []
+            ranking_values = []
+            points_values = []
+            for(year in years_array){
+                try{
+                    if(data_output[category][years_array[year]].ranking == undefined)
+                    ranking_values.push(null)
+                    else
+                    ranking_values.push(parseInt(data_output[category][years_array[year]].ranking))
+                }
+                catch(err){
+                    console.log(err)
+                    ranking_values.push(null)
+                }
+                try{
+                    if(data_output[category][years_array[year]].BH == undefined)
+                        bh_values.push(null)
+                    else
+                        bh_values.push(parseInt(data_output[category][years_array[year]].BH))
+                }
+                catch(err){
+                    console.log(err)
+                    bh_values.push(null)
+                }
+                try{
+                    if(data_output[category][years_array[year]].points == undefined)
+                        points_values.push(null)
+                    else
+                        points_values.push(parseInt(data_output[category][years_array[year]].points))
+                }
+                catch(err){
+                    console.log(err)
+                    points_values.push(null)
+                }
+                
+
+                
+
+                
+            }
+            ranking_plots.push({values: ranking_values, text: categories[category]})
+            bh_plots.push({values: bh_values, text: categories[category]})
+            point_plots.push({values: points_values, text: categories[category]})
+        }
+
+
+
+        
+        years_array.sort()
+
+
+        let myConfig = {
+        type: "line",
+        title: {
+            text: 'Žebříček',
+            fontSize: 30,
+        },
+        legend: {
+            draggable: true,
+        },
+        scaleX: {
+            // Set scale label
+            // Convert text on scale indices
+            labels: years_array,
+            item:{  
+                "font-size" : "20px"  
+            } 
+        },
+        scaleY: {
+        },
+        plot: {
+            aspect: 'spline',
+            tooltip: {
+                text: "%t:%kt, %v. ČR",
+                placement: "node:top",
+                padding: "10%",
+                'border-radius': "5px",
+                sticky: true, //Set to true.
+                timeout: 5000 //Provide value in milliseconds.
+                }
+            // Animation docs here:
+            // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+            // animation: {
+            // effect: 'ANIMATION_EXPAND_BOTTOM',
+            // method: 'ANIMATION_STRONG_EASE_OUT',
+            // sequence: 'ANIMATION_BY_NODE',
+            // speed: 1,
+            // }
+        },
+        series: ranking_plots
+        };
+
+        let pointsConfig = {
+        type: "line",
+        title: {
+            text: 'Získané body',
+            fontSize: 30,
+        },
+        subtitle: {
+          text: "Odpovídá pouze kalendářním bodům, tzn. listopad/prosinec nespadaji do sezony dalšího roku ale do předešlé.<br>Plánováno opravit.",
+          'offset-y': 10,
+          color: "#1abc9c",
+        },
+        legend: {
+            draggable: true,
+        },
+        scaleX: {
+            // Set scale label
+            // Convert text on scale indices
+            labels: years_array,
+            item:{  
+                "font-size" : "20px"  
+            } 
+        },
+        scaleY: {
+        },
+        plot: {
+            aspect: 'spline',
+            tooltip: {
+                text: "%t:%kt, body: %v",
+                placement: "node:top",
+                padding: "10%",
+                'border-radius': "5px",
+                sticky: true, //Set to true.
+                timeout: 5000 //Provide value in milliseconds.
+                },
+                
+                        
+            // Animation docs here:
+            // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+            // animation: {
+            // effect: 'ANIMATION_EXPAND_BOTTOM',
+            // method: 'ANIMATION_STRONG_EASE_OUT',
+            // sequence: 'ANIMATION_BY_NODE',
+            // speed: 1,
+            // }
+        },
+        series: point_plots
+        };
+
+        let bhConfig = {
+        type: "line",
+        title: {
+            text: 'BH (bonusová hodnota)',
+            fontSize: 30,
+            flat:false,
+            url: 'http://www.cztenis.cz/docs/klasifikacni_rad.pdf',
+            target: '_blank'
+        },
+        legend: {
+            draggable: true,
+        },
+        scaleX: {
+            // Set scale label
+            // Convert text on scale indices
+            labels: years_array,
+            item:{  
+                "font-size" : "20px"  
+            } 
+        },
+        scaleY: {
+        },
+        plot: {
+            aspect: 'spline',
+            tooltip: {
+                text: "%t:%kt, BH: %v",
+                placement: "node:top",
+                padding: "10%",
+                'border-radius': "5px",
+                sticky: true, //Set to true.
+                timeout: 5000 //Provide value in milliseconds.
+                }
+                        
+            // Animation docs here:
+            // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+            // animation: {
+            // effect: 'ANIMATION_EXPAND_BOTTOM',
+            // method: 'ANIMATION_STRONG_EASE_OUT',
+            // sequence: 'ANIMATION_BY_NODE',
+            // speed: 1,
+            // }
+        },
+        series: bh_plots
+        };
+
+
+        zingchart.render({
+        id: 'zebricekChart',
+        data: myConfig,
+        
+        });
+
+        zingchart.render({
+        id: 'pointsChart',
+        data: pointsConfig,
+        
+        });
+
+        zingchart.render({
+        id: 'bhChart',
+        data: bhConfig,
+        
+        });
+    </script>

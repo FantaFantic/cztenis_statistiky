@@ -1,0 +1,183 @@
+{% extends 'base.html' %} 
+
+
+{% block content %}
+<h3>Výsledky hledání:</h3>
+<br>
+{% if found_players %}
+
+
+    <table id="results_table" class="table table-hover" >
+    <thead>
+      <tr>
+          
+        <th scope="col"></th>
+        <th scope="col">Jméno</th>
+          
+          
+        <th scope="col">Klub</th>
+        <th scope="col">Datum narození</th>
+        <th scope="col">Platnost registrace</th>
+      </tr>
+    </thead>
+
+    <tr>
+            
+      <!--  <a href="/player/{{ player.id }}"></a> <br>-->
+                <th scope="col">#</th>
+                <th> <div>
+                  <input type="search" onkeyup="filterRow(this, 0)" onblur="filterRow(this, 0)" id="form1" class="form-control" placeholder="jméno"
+                  aria-label="Search" style="margin-left: -12px" />
+                </div>
+                <th><div>
+                  <input type="search" onkeyup="filterRow(this, 1)" onblur="filterRow(this, 1)"  id="form1" class="form-control" placeholder="klub"
+                  aria-label="Search" style="margin-left: -12px"  /></th>
+                <th><div>
+                  <input type="search" onkeyup="filterRow(this, 2)"  onblur="filterRow(this, 2)" id="form1" class="form-control" placeholder="datum narození"
+                  aria-label="Search" style="margin-left: -12px"  /></th>
+                <th><div>
+                  <input id="3search" type="search" onkeyup="filterRow(this, 3)" onblur="filterRow(this, 3)"  id="form1" class="form-control" placeholder="platnost registrace"
+                  aria-label="Search" style="margin-left: -12px"  /></th>
+               </tr>
+   
+    </th>
+
+   
+
+    
+    <tbody>
+    {% for player in found_players %}
+
+
+          <tr>
+            
+  <!--  <a href="/player/{{ player.id }}"></a> <br>-->
+
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href="/hrac/{{ player.id }}" style="color: #dc3545">{{ player.full_name }}</a></td>
+            <td>{{ player.club }}</td>
+            <td>{{ player.date_of_birth }}</td>
+            <td>{{ player.registration }}</td>
+           </tr>
+
+
+
+    {% endfor %}
+
+    <script>
+      
+      // // enqueue an item
+      // queue.enqueue('item');
+
+      // // dequeue an item
+      // var item = queue.dequeue();
+
+      table = document.getElementById("results_table");
+      all_rows = table.getElementsByTagName("tr");
+      
+      active_rows = []
+      disabled_rows = []
+      for(let i = 2; i < all_rows.length; i++){
+        active_rows.push(all_rows[i]);
+        disabled_rows.push(null);
+      }
+
+      // console.log(active_rows);
+      // console.log(disabled_rows);
+
+      active_filter_indexes = {};
+
+
+      function filterRow(element, column_number){
+        filter = element.value.toUpperCase();
+        
+        if(active_filter_indexes[column_number] == undefined || filter.length > active_filter_indexes[column_number].length){
+         
+          // filtr přibývá check active
+          active_filter_indexes[column_number] = filter;
+          for(let i = 0; i < active_rows.length ; i++){
+
+            if(active_rows[i] != null){
+              td = active_rows[i].getElementsByTagName("td")[column_number];
+              txtValue = td.textContent || td.innerText;
+
+              // console.log("checking " + filter + " against " + txtValue);
+              
+              // -> check jenom tenhle index
+
+              if (!(txtValue.toUpperCase().indexOf(filter) > -1)) {
+                
+                active_rows[i].style.display = "none";
+                //console.log(txtValue + ": popoing to disabled, filter: " + filter + ": " + txtValue.toUpperCase().indexOf(filter));
+                disabled_rows[i] = active_rows[i];
+                active_rows[i] = null;
+              } 
+            } 
+          }
+        }
+        else{
+          // novej je menší
+          if(filter == "" && active_filter_indexes[column_number] == ""){
+            delete active_filter_indexes[column_number];
+            return 0;
+          }
+          else if(filter.length == active_filter_indexes[column_number].length)
+            return 0;
+         
+            
+          active_filter_indexes[column_number] = filter;
+
+          for(let i = 0; i < disabled_rows.length ; i++){
+            if(disabled_rows[i] != null){
+
+              let skip;
+              skip = false;
+              for(index in active_filter_indexes){
+
+                td = disabled_rows[i].getElementsByTagName("td")[index];
+                txtValue = td.textContent || td.innerText;
+                // console.log(txtValue + " against " + active_filter_indexes[index]);
+                
+                if (!(txtValue.toUpperCase().indexOf(active_filter_indexes[index]) > -1)) {
+                  skip = true;
+                  break;
+                }                
+              }
+              if(skip)
+                continue;
+              disabled_rows[i].style.display = "";
+              //console.log(txtValue + ": popoing to disabled, filter: " + filter + ": " + txtValue.toUpperCase().indexOf(filter));
+              active_rows[i] = disabled_rows[i];
+              disabled_rows[i] = null;
+             // console.log("\n")
+
+              
+            } 
+            
+
+
+
+
+          // filtr ubyva check non active
+        }
+
+        // console.log("disabled: ");
+        // console.log(disabled_rows);
+        // console.log("active: ");
+        // console.log(active_rows);
+
+      }}
+
+    </script>
+</tbody>
+</table>
+
+{% else %}
+
+
+    <h5>Žádné výsledky pro {{searched_name}}</h5>
+{% endif %}
+
+
+
+{% endblock %}

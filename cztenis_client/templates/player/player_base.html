@@ -1,0 +1,315 @@
+{% extends 'base.html' %} 
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+    {% if player %}
+
+    <div class="container" style="text-align: center;">
+        <div class="row">
+            <div class="col-sm" style="color: #dc3545">
+            <h5>{{ player.date_of_birth }}</h5>
+            </div>
+        
+            <div class="col-sm" >
+                <h4>{{ player.full_name }}</h4>
+            </div>
+            <div class="col-sm" style="color: #dc3545">
+                <h6>{{ player.club }}</h6>
+            </div>
+        </div>
+<!-- 
+        second row -->
+        <div class="row" style="margin-top: 20px">
+
+            <div class="col-sm" style="text-align: left; color: #dc3545">
+                <h6 style="margin-top: 10px; margin-left: 30%">Zdroj: <a href="http://www.cztenis.cz/hrac/{{ player.id }}" target="_blank"><img src="{% static 'theme/assets/img/cztenis.png' %}" class="rounded float-left" style="height: 45px; position:absolute; top: 0px; margin-left: 30px" alt="Profil na www.cztenis.cz"></a></h6>
+            </div>
+            
+            <div class="col-sm" style="margin-top: 25px">
+                <h6>Zobrazení profilu: 0</h6>
+            </div>
+            <div class="col-sm" style="color: #dc3545; margin-top: 15px;">
+               <b>reg. do {{ player.registration }}</b>
+            </div>
+
+        </div>
+
+    </div>
+    <br>
+
+    <hr>
+    
+    
+    {% if loading %}
+
+    <div id="loading_div">
+
+        <div class="row">
+
+            <div class="col-md-12" style="text-align: center">
+                        
+                <h5><i><a id="loading_text">Získávám žebříček</a></i></h5>
+                <br>
+                <div class="progress">
+                    <div id="loading_progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+            </div>
+    
+        </div>
+
+    </div>
+    <br>
+    
+
+
+    <script>
+        let beginning_year = 2003;//2003
+        let end_year = new Date().getFullYear();
+
+        let current_percent = 0;
+
+        let percent_step = 100 / (end_year - beginning_year + 2);
+
+        let cztenis_url = "/http://www.cztenis.cz/";
+        let player_id = "{{ player.id }}";
+        let loading_text = document.getElementById("loading_text");
+        let loading_bar = document.getElementById("loading_progress");
+
+
+        window.onload = function() {
+            get_rankings(player_id);
+        }
+        
+        function get_rankings(player_id) {
+            
+            $.ajax({
+                url : "/getRankings/" + player_id, // the endpoint
+                type : "GET", // http method
+
+                // handle a successful response
+                success : function(result) {
+                    
+                    current_percent += percent_step;
+                    loading_bar.style.width = current_percent + "%";
+                    
+                    loading_text.textContent = "Získávám sezónu " + beginning_year
+                    get_season(beginning_year, player_id)
+                },
+
+                // handle a non-successful response
+                error : function() {
+                    loading_text.textContent = "Chyba při načítání žebříčku, zkuste obnovit stránku"
+                    setPlayerFullyLoaded(false, player_id)
+                }
+            });
+        };
+
+        function get_season(season, player_id) {
+            
+            $.ajax({
+                url : "/getSeason/" + player_id + "/" + season, // the endpoint
+                type : "GET", // http method
+
+                // handle a successful response
+                success : function(result) {
+
+                    current_percent += percent_step;
+                    loading_bar.style.width = current_percent + "%";
+                    season++;
+
+                    if(season < end_year + 1){
+                        loading_text.textContent = "Získávám sezónu " + season
+                        get_season(season, player_id);
+                    }
+                    else{
+                        loading_text.textContent = "Vyhodnocuji data"
+                        setPlayerFullyLoaded(true, player_id);
+                        
+                        
+                    }
+
+
+                },
+
+                // handle a non-successful response
+                error : function() {
+                    loading_text.textContent = "Chyba při načítání sezóny " + season + ", zkuste obnovit stránku"
+                    setPlayerFullyLoaded(false, player_id)
+                }
+            });
+
+        };
+
+        function setPlayerFullyLoaded(value, player_id) {
+        
+            $.ajax({
+                url : "/setPlayerFullyLoaded/" + player_id + "/" + value, // the endpoint
+                type : "GET", // http method
+
+                // handle a successful response
+                success : function(result) {
+                    location.reload();
+                },
+                // handle a non-successful response
+                error : function() {
+                    loading_text.textContent = "Chyba na serveru při vyhodnocování dat"
+                }
+            });   
+        };
+
+
+
+
+    </script>
+   
+
+    {% else %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+<br>
+            <div class="row" >
+                <div class="col-md-12">
+                <div style="text-align: center;">
+                    
+                <h6 >Aktivní období:</h6>
+                </div>
+                </div>
+            </div>
+            
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-2"></div>
+                <div class="col-md-4" style="text-align: left">
+                    <br>První zápas:
+                    </div>
+                    
+                    <div class="col-md-6" style="text-align: left">
+                        
+                    <a href="http://www.cztenis.cz{{ summary.first_ever_tournament.competition_link }}" target="_blank"> 
+                        
+                        {{ summary.first_ever_tournament.date_string }}, 
+                        {{ summary.first_ever_tournament.category_type.age_category }}, 
+                        {{ summary.first_ever_tournament.category_type.category_type }}
+                        <br>        
+                        
+
+                        {% if summary.first_ever_tournament.home_team %}
+                            {{ summary.first_ever_tournament.competition_type }}
+                            <br>
+                             {{ summary.first_ever_tournament.home_team }} vs {{ summary.first_ever_tournament.host_team }}
+                        {% else %}
+                            ---
+                            <br>
+                            {{  summary.first_ever_tournament.tournament_place }} ({{ summary.first_ever_tournament.competition_type }})
+
+                        {% endif %}
+
+                        <br>
+                        </a>
+                    
+                    </div>
+            </div>
+    
+            <br>
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4" style="text-align: left">
+                    <br>
+                    Poslední zápas:
+                    </div>
+                    
+                    <div class="col-md-6" style="text-align: left">
+                        
+                        <a href="http://www.cztenis.cz{{ summary.first_ever_tournament.competition_link }}" target="_blank"> 
+                        
+                            {{ summary.last_ever_tournament.date_string }}, 
+                            {{ summary.last_ever_tournament.category_type.age_category }}, 
+                            {{ summary.last_ever_tournament.category_type.category_type }}
+                            <br>        
+                            
+    
+                            {% if summary.last_ever_tournament.home_team %}
+                                {{ summary.last_ever_tournament.competition_type }}
+                                <br>
+                                 {{ summary.last_ever_tournament.home_team }} vs {{ summary.last_ever_tournament.host_team }}
+                            {% else %}
+                                ---
+                                <br>
+                                {{  summary.last_ever_tournament.tournament_place }} ({{ summary.last_ever_tournament.competition_type }})
+    
+                            {% endif %}
+    
+                            <br>
+                            </a>
+                    
+                    </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4" style="text-align: left">
+                    Celkem zápasů:
+                    </div>
+                    
+                    <div class="col-md-6" style="text-align: left">
+                        
+                    <b>{{ summary.matches_count }}</b>
+                    
+                    </div>
+            </div>
+            
+            <br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-4" style="text-align: left">
+                    Bilance:
+                    </div>
+                    
+                    <div class="col-md-6" style="text-align: left">
+                        
+                    <b><a style="color: #28a745">{{ summary.win_count }}</a>/<a style="color: #dc3545">{{ summary.lose_count }}</a> ({{ summary.win_rate }}%)</b>
+                    
+                    </div>
+            </div>
+    
+        </div>
+
+</div>
+
+    <br>
+
+    <hr>
+    <div class="row" style="margin-top: 10px">
+            {% include 'player/player_navbar.html' %}
+    </div>
+    <hr>
+    <br>
+
+    {% block player_content %}
+
+    {% endblock %}
+
+    
+
+
+    {% endif %}
+
+    <script>
+        document.title = "{{ player.full_name }}" + " - statistiky"
+    </script>
+
+{% else %}
+    <h4>Profil hráče nenalezen</h4>
+
+    
+{% endif %}
+
+
+
+{% endblock %}

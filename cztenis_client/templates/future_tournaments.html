@@ -1,0 +1,275 @@
+{% extends 'base.html' %} 
+
+
+{% block content %}
+<h3>Turnaje:</h3>
+<br>
+<hr>
+{% include 'tournaments_navbar.html' %}
+<hr>
+
+<br>
+
+
+{% if category != "babytenis" and category != "minitenis" and category %}
+<div class="row">
+  <div id="select_dvouhra" style="width: 80%; margin-left: 10%;">
+    <select class="form-control" id="select_box_muzi_zeny" onchange="filterRow('12', 4), filterRow(this.value, 4)" >
+      {% if category == "dospeli" %}
+      <option value="1">Muži</option>
+      <option value="2">Ženy</option>
+      {% else %}
+      <option value="1">Chlapci</option>
+      <option value="2">Dívky</option>
+      {% endif %}
+      
+    </select>
+  </div>
+</div>
+
+<br>
+<br>
+{% endif %}
+
+
+{% if found_tournaments %}
+
+
+
+    <table id="results_table" class="table table-hover" >
+    <thead>
+      <tr>
+          
+        <th scope="col"></th>
+        <th scope="col">Datum</th>
+        <th scope="col"><div style="margin-left: 25px; width: 100px">Kategorie</div></th>
+        
+        <th scope="col">Pořadatel</th>
+        <th scope="col">Název</th>
+      </tr>
+    </thead>
+
+
+    <tr>
+            
+      <!--  <a href="/player/{{ player.id }}"></a> <br>-->
+                <th scope="col">#</th>
+                <th> <div>
+                  <input type="search" onkeyup="filterRow(this, 0)" onblur="filterRow(this, 0)" id="form1" class="form-control" placeholder="datum"
+                  aria-label="Search" style="margin-left: -12px ;" />
+                </div>
+                <th><div>
+                  <input type="search" onkeyup="filterRow(this, 1)" onblur="filterRow(this, 1)"  id="form1" class="form-control" placeholder="kategorie"
+                  aria-label="Search" style="margin-left: 10; width: 100px"  /></th>
+                <th><div>
+                  <input type="search" onkeyup="filterRow(this, 2)"  onblur="filterRow(this, 2)" id="form1" class="form-control" placeholder="pořadatel"
+                  aria-label="Search" style="margin-left: -12px"  /></th>
+                <th><div>
+                  <input id="3search" type="search" onkeyup="filterRow(this, 3)" onblur="filterRow(this, 3)"  id="form1" class="form-control" placeholder="název turnaje"
+                  aria-label="Search" style="margin-left: -12px"  /></th>
+               </tr>
+   
+    </th>
+
+   
+
+    
+    <tbody>
+    {% for tournament in found_tournaments %}
+    
+          <tr>
+            
+
+            <th scope="row">{{ forloop.counter }}</th>
+            
+            <td>{{ tournament.date }}</td>
+            <td><div style="text-align: center; margin-left: -15px"><b>{{ tournament.category }}</b></div></td>
+            <td><a href="http://cztenis.cz{{ tournament.link }}" target="_blank" style="color: #dc3545">{{ tournament.place }}</a></td>
+        
+            <td>{{ tournament.tournament_name }}</td>
+            
+            <td style="display: none">{% if tournament.gender == "muži" %}1{% else %}2{% endif %}</td>
+               </tr>
+
+
+    {% endfor %}
+
+    <script>
+      
+      // // enqueue an item
+      // queue.enqueue('item');
+
+      // // dequeue an item
+      // var item = queue.dequeue();
+
+      months = {
+        "01" : "leden",
+        "02" : "únor",
+        "03" : "březen",
+        "04" : "duben",
+        "05" : "květen",
+        "06" : "červen",
+        "07" : "červenec",
+        "08" : "srpen",
+        "09" : "září",
+        "010" : "říjen",
+        "011" : "listopad",
+        "012" : "prosinec",
+
+      }
+
+
+      table = document.getElementById("results_table");
+      all_rows = table.getElementsByTagName("tr");
+
+      select_box_muzi_zeny = document.getElementById("select_box_muzi_zeny")
+      
+      active_rows = []
+      disabled_rows = []
+      for(let i = 2; i < all_rows.length; i++){
+        active_rows.push(all_rows[i]);
+        disabled_rows.push(null);
+      }
+
+      // console.log(active_rows);
+      // console.log(disabled_rows);
+
+      active_filter_indexes = {};
+
+      filterRow(select_box_muzi_zeny.value, 4);
+
+
+      translateMonths();
+
+
+      function translateMonths(){
+        for(let i = 0; i < active_rows.length; i++){
+          if(active_rows[i] != null){
+            td = active_rows[i].getElementsByTagName("td")[0];
+            new_date = "";
+            dates = td.textContent.split("-");
+            for(key in dates){
+              date_parts = dates[key].split(".");
+              if(date_parts.length > 2){
+                new_date += date_parts[0] + ". ";
+                new_date += months[date_parts[1]];
+              }
+              else{
+                new_date += date_parts[0] + ".-"; 
+              }
+            }
+            td.textContent = new_date;
+          }
+        }
+        for(let i = 0; i < disabled_rows.length; i++){
+          if(disabled_rows[i] != null){
+            td = disabled_rows[i].getElementsByTagName("td")[0];
+            new_date = "";
+            dates = td.textContent.split("-");
+            for(key in dates){
+              date_parts = dates[key].split(".");
+              if(date_parts.length > 2){
+                new_date += date_parts[0] + ". ";
+                new_date += months[date_parts[1]];
+              }
+              else{
+                new_date += date_parts[0] + ".-"; 
+              }
+            }
+            td.textContent = new_date;
+          }
+        }
+
+    }
+
+      function filterRow(element, column_number){
+        if(column_number != 4)
+          filter = element.value.toUpperCase();
+        else{
+          filter = element
+        }
+
+        if(active_filter_indexes[column_number] == undefined || filter.length > active_filter_indexes[column_number].length){
+         
+          // filtr přibývá check active
+          active_filter_indexes[column_number] = filter;
+          for(let i = 0; i < active_rows.length ; i++){
+
+            if(active_rows[i] != null){
+              td = active_rows[i].getElementsByTagName("td")[column_number];
+       
+
+              txtValue = td.textContent || td.innerText;
+
+
+              if (!(txtValue.toUpperCase().indexOf(filter) > -1)) {
+                
+                active_rows[i].style.display = "none";
+                //console.log(txtValue + ": popoing to disabled, filter: " + filter + ": " + txtValue.toUpperCase().indexOf(filter));
+                disabled_rows[i] = active_rows[i];
+                active_rows[i] = null;
+              } 
+            } 
+          }
+        }
+        else{
+          // novej je menší
+          if(filter == "" && active_filter_indexes[column_number] == ""){
+            delete active_filter_indexes[column_number];
+            return 0;
+          }
+          else if(filter.length == active_filter_indexes[column_number].length)
+            return 0;
+         
+            
+          active_filter_indexes[column_number] = filter;
+
+          for(let i = 0; i < disabled_rows.length ; i++){
+            if(disabled_rows[i] != null){
+
+              let skip;
+              skip = false;
+              for(index in active_filter_indexes){
+
+                td = disabled_rows[i].getElementsByTagName("td")[index];
+                txtValue = td.textContent || td.innerText;
+                // console.log(txtValue + " against " + active_filter_indexes[index]);
+                
+                if (!(txtValue.toUpperCase().indexOf(active_filter_indexes[index]) > -1)) {
+                  skip = true;
+                  break;
+                }                
+              }
+              if(skip)
+                continue;
+              disabled_rows[i].style.display = "";
+              //console.log(txtValue + ": popoing to disabled, filter: " + filter + ": " + txtValue.toUpperCase().indexOf(filter));
+              active_rows[i] = disabled_rows[i];
+              disabled_rows[i] = null;
+             // console.log("\n")
+
+              
+            } 
+            
+        }
+
+      }}
+
+    </script>
+</tbody>
+</table>
+
+{% endif %}
+
+
+
+
+<!-- set navbar active -->
+<script>
+  navbar_item = document.getElementById("nav_" + window.location.pathname.split("/")[2]);
+  navbar_item.classList.add("active")
+</script>
+
+
+{% endblock %}
+
