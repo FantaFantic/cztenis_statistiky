@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 
 from cztenis_client.entities.Carreer_summary import Carreer_summary
+from threading import Timer
 
 loadedPlayers = {}
 
@@ -28,6 +29,22 @@ points_by_player = {}
 
 import cztenis_client.urls_views.cztenisScraperView as loaded_data
 
+
+
+def reset_loaded(id):
+    
+    all_tournaments_by_player_id.pop(id)
+    playersFullyLoaded[id] = False
+    
+    career_summaries_by_player_id.pop(id)
+
+    seasons_per_player.pop(id)
+
+    points_by_player.pop(id)
+                
+    loadedPlayers.pop(id)
+    loaded_data.loadedTournamentsPerPlayer.pop(id)
+    playersFullyLoaded.pop(id)
 
 
 
@@ -50,6 +67,19 @@ def set_fully_loaded(request, id, bool_value):
         
         if(id in all_tournaments_by_player_id):
             all_tournaments_by_player_id.pop(id)
+            playersFullyLoaded[id] = False
+            
+            career_summaries_by_player_id.pop(id)
+
+            seasons_per_player.pop(id)
+
+            points_by_player.pop(id)
+                        
+            loadedPlayers.pop(id)
+            loaded_data.loadedTournamentsPerPlayer.pop(id)
+            playersFullyLoaded.pop(id)
+
+
         
         return ""
     # calculate basic stats
@@ -64,6 +94,7 @@ def set_fully_loaded(request, id, bool_value):
     all_matches = []
     all_tournaments = []
 
+    print("season funguguju")
 
     for season in tournaments_by_season:
         for tournament in season:
@@ -75,7 +106,6 @@ def set_fully_loaded(request, id, bool_value):
     #     print(tournament)
     #     # for match in tournament.matches:
     #     #     all_matches.append(match)
-
 
     
     all_tournaments_by_player_id[id] = all_tournaments
@@ -93,8 +123,8 @@ def set_fully_loaded(request, id, bool_value):
     except: 
         carreer_summary.win_rate = "?"
 
-
-
+    first_ever_tournament = None
+    last_ever_tournament = None
     if(len(all_tournaments) > 0):
 
         last_ever_tournament = all_tournaments[len(all_tournaments)-1]
@@ -134,6 +164,9 @@ def set_fully_loaded(request, id, bool_value):
  
     
     career_summaries_by_player_id[id] = carreer_summary
+
+    t = Timer(600, reset_loaded, [id])
+    t.start() # after 30 seconds, "hello, world" will be printed
     
     return HttpResponse(
             #json.dumps(""),
@@ -166,8 +199,6 @@ def player_rankings(request, id):
         for item in points_by_player[id]:
             for key in points_by_player[id][item]:
                 points_array.append("%s,%s,%s" % (item, key, points_by_player[id][item][key]))
-                #print("%s,%s,%s" % (item, key, points_by_player[id][item][key]))
-            #print("%s,%s,%s" %( str(item,points_by_player[id][item], "", ""))
 
         return render(request, 'player/player_rankings.html', {"player" : player, "active_seasons" : active_seasons, "summary" : career_summaries_by_player_id[id] ,"rankings" : loaded_data.loaded_rankings[id], "points" : points_array, "requested_id" : id})
 

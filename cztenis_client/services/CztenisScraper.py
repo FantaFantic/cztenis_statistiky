@@ -20,7 +20,7 @@ class CztenisScraper:
     
 
     # static attributes:
-    url = "http://cztenis.cz/"
+    url = "https://cztenis.cz/"
     
     #categories = ["ml. žactvo", "st. žactvo", "dorost", "dospělí"]
 
@@ -103,12 +103,14 @@ class CztenisScraper:
 ##################################################################################################################################
     def searchPlayer(self, searchedText):
         
-        form_data = {"hledejhrace": 1, "hledej": searchedText}
 
-        request = rq.post(self.url + "hrac/", form_data)
+        
+        form_data = {"hledejhrace": 1, "hledej": searchedText}
+        
+        request = rq.post(self.url, form_data)
         request.encoding = "utf-8"
         html_response = request.text
-
+        print(html_response)
         soup = BeautifulSoup(html_response, "html.parser")
 
         #### data starting here :::: 
@@ -237,7 +239,7 @@ class CztenisScraper:
         request = rq.post(self.url + "hrac/"+self.current_player_id, self.form_data)
         request.encoding = "utf-8"
         html_response = request.text
-
+        
         soup = BeautifulSoup(html_response, "html.parser")
         # // request
 
