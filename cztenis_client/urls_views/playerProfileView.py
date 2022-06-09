@@ -12,6 +12,7 @@ from django.http import HttpResponse
 
 from cztenis_client.entities.Carreer_summary import Carreer_summary
 from threading import Timer
+from functools import cmp_to_key
 
 loadedPlayers = {}
 
@@ -133,21 +134,39 @@ def set_fully_loaded(request, id, bool_value):
         
         points_by_season = {}
 
+
+        # 04-10 - letní 11 - 05 zimní
+
         for tournament in all_tournaments:
             
             if(not id in seasons_per_player):
-                    seasons_per_player[id] = []
+                seasons_per_player[id] = []
 
-            if(not tournament.date.year in points_by_season):
-                points_by_season[tournament.date.year] = {}
+            season_key = str(tournament.date.year)
+            
+            if(tournament.date.month >= 11):
+                # from /11 counts to next year season
+                season_key = str(tournament.date.year+1)
 
-                seasons_per_player[id].append(tournament.date.year)
+            # -Z -L mechanism since 2022
+            if(int(season_key) >= 2022):
+                # Zimní season listopad - březen
+                if(tournament.date.month >= 11 or tournament.date.month <= 3):
+                    season_key += "-Z"
+                else:
+                    # Letní season
+                    season_key += "-L"
+                
+            if(not season_key in points_by_season):
+                points_by_season[season_key] = {}
+                
+                seasons_per_player[id].append(season_key)
 
-            if(not tournament.category_type.age_category in points_by_season[tournament.date.year]):
-                points_by_season[tournament.date.year][tournament.category_type.age_category] = 0
+            if(not tournament.category_type.age_category in points_by_season[season_key]):
+                points_by_season[season_key][tournament.category_type.age_category] = 0
 
 
-            points_by_season[tournament.date.year][tournament.category_type.age_category] += int(tournament.points)
+            points_by_season[season_key][tournament.category_type.age_category] += int(tournament.points)
                 
 
         if(not id in points_by_player):
@@ -174,7 +193,20 @@ def set_fully_loaded(request, id, bool_value):
             content_type="application/json"
         )
 
+def compare_season_keys(a, b):
 
+    if int(a[0:4]) > int(b[0:4]):
+        return 1
+    elif int(a[0:4]) < int(b[0:4]):
+        return -1
+    elif int(a[0:4]) == int(b[0:4]):
+        print(a[5], b[5])
+        if(a[5] == 'L' and b[5] == 'Z'):
+            return 1
+        elif(a[5] == 'Z' and b[5] == 'L'):
+            return -1
+    print("equal")
+    return 0
 
 def player_rankings(request, id):
     
@@ -186,14 +218,22 @@ def player_rankings(request, id):
         active_seasons = []
 
         for i in range (career_summaries_by_player_id[id].first_ever_tournament.date.year, career_summaries_by_player_id[id].last_ever_tournament.date.year + 1):
-            active_seasons.append(i)
+            if(i < 2022):
+                active_seasons.append(str(i))
+            else:
+                active_seasons.append(str(i) + '-L')
+                active_seasons.append(str(i) + '-Z')
+
 
         for item in loaded_data.loaded_rankings[id]:
-            if(not int(item["year"]) in active_seasons):
-                active_seasons.append(int(item["year"]))
+            if(not item["year"] in active_seasons):
+                active_seasons.append(item["year"])
+
+                
+        print(active_seasons)
         
-        active_seasons.sort()
-        #print(active_seasons)
+        active_seasons = sorted(active_seasons, key=cmp_to_key(compare_season_keys))
+        print(active_seasons)
 
         points_array = []
         for item in points_by_player[id]:

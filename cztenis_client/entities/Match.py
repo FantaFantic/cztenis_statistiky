@@ -198,23 +198,25 @@ class Match():
                 self.games_lost_per_set.append("")
                 break
 
-            if(self.is_host):
-                
-                your_games = current_set.split(":")[0]
-                opponent_games = current_set.split(":")[1]
-            else:
-                your_games = current_set.split(":")[1]
-                opponent_games = current_set.split(":")[0]
-
-            if("(" in your_games):
-                your_games = your_games.split(" (")[0]
-
-            if("(" in opponent_games):
-                opponent_games = opponent_games.split(" (")[0]
-
-            self.games_won_per_set.append(your_games)
-            self.games_lost_per_set.append(opponent_games)
             try:
+
+                if(self.is_host):
+                    
+                    your_games = current_set.split(":")[0]
+                    opponent_games = current_set.split(":")[1]
+                else:
+                    your_games = current_set.split(":")[1]
+                    opponent_games = current_set.split(":")[0]
+
+                if("(" in your_games):
+                    your_games = your_games.split(" (")[0]
+
+                if("(" in opponent_games):
+                    opponent_games = opponent_games.split(" (")[0]
+
+                self.games_won_per_set.append(your_games)
+                self.games_lost_per_set.append(opponent_games)
+                
                 if(int(your_games) > int(opponent_games)):
                     self.sets_won += 1
                 if(int(your_games) < int(opponent_games)):
