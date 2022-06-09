@@ -23,6 +23,8 @@ from .urls_views import publicViews
 from .urls_views import cztenisScraperView
 
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 
 handler404 = publicViews.handler404
 handler500 = publicViews.handler500
@@ -73,4 +75,4 @@ urlpatterns = [
 
     path('setPlayerFullyLoaded/<str:id>/<str:bool_value>', playerProfileView.set_fully_loaded, name = "set_fully_loaded"),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
