@@ -84,14 +84,17 @@ class CztenisScraper:
             # print(row)
             # muži
 
+            print(columns)
+            try:
 
-            if(len(columns[0].text) != 1):
-                all_tournaments.append(Future_tournament("muži", columns[0].text, columns[1].text, columns[2], columns[3].find("a")["href"]))
-           
-            # ženy
-            if(not skip_second_row and len(columns[6].text) != 1):
-                all_tournaments.append(Future_tournament("ženy", columns[6].text, columns[7].text, columns[8], columns[9].find("a")["href"])) 
-
+                if(len(columns[0].text) != 1):
+                    all_tournaments.append(Future_tournament("muži", columns[0].text, columns[1].text, columns[2], columns[3].find("a")["href"]))
+            
+                # ženy
+                if(not skip_second_row and len(columns[6].text) != 1):
+                    all_tournaments.append(Future_tournament("ženy", columns[6].text, columns[7].text, columns[8], columns[9].find("a")["href"])) 
+            except:
+                number = 1
         # print("je tu %s turnajů" % len(all_tournaments))
 
         return all_tournaments
