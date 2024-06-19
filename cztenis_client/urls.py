@@ -32,7 +32,7 @@ handler500 = publicViews.handler500
 urlpatterns = [
 
     # path('admin/', admin.site.urls),
-    url(r'^', include('favicon.urls')),
+    # url(r'^', include('favicon.urls')),
     path('', publicViews.index, name = "index"),
     path('about', publicViews.about, name = "about"),
 
